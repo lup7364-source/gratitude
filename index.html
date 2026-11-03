@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mar de gratitud</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="waves" aria-hidden="true">
+ <svg viewBox="0 0 1440 140" preserveAspectRatio="none"><path fill="#2f86a8" d="M0 70 C120 20 240 20 360 70 S600 120 720 70 S960 20 1080 70 S1320 120 1440 70 V140 H0Z"/></svg>
+ <svg viewBox="0 0 1440 140" preserveAspectRatio="none"><path fill="#1f6f94" d="M0 90 C120 50 240 50 360 90 S600 130 720 90 S960 50 1080 90 S1320 130 1440 90 V140 H0Z"/></svg>
+ <svg viewBox="0 0 1440 140" preserveAspectRatio="none"><path fill="#0b3d5c" d="M0 110 C120 80 240 80 360 110 S600 140 720 110 S960 80 1080 110 S1320 140 1440 110 V140 H0Z"/></svg>
+</div>
+<div id="toast"></div>
+<main>
+ <h1>🌊 Mar de gratitud</h1>
+ <div class="sub">Respira. Cada queja es una ola que se convierte en calma.</div>
+
+ <section id="auth" class="card hidden">
+  <h2>Entrar</h2>
+  <div class="tabs"><button id="tLogin" class="act">Iniciar sesión</button><button id="tSign">Crear cuenta</button></div>
+  <input id="email" type="email" placeholder="Correo" autocomplete="email"><br><br>
+  <input id="pass" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password"><br><br>
+  <button id="goAuth">Entrar</button>
+ </section>
+
+ <div id="app" class="hidden">
+  <section class="card">
+   <div class="row" style="justify-content:space-between;align-items:center">
+    <h2 style="margin:0">Tu cuota de hoy</h2><button class="ghost" id="out">Salir</button>
+   </div>
+   <div class="big" id="remain"></div>
+   <div class="bar"><i id="barFill"></i></div>
+   <div id="debtBox"></div>
+   <small id="rules">5 al día · nunca repetidas · cada día fallado suma 5 + castigo ×3 (15)</small>
+  </section>
+
+  <section class="card">
+   <h2>🌿 Mis gratitudes</h2>
+   <div class="row"><input id="gIn" type="text" placeholder="Agradezco…" maxlength="200"><button id="gAdd">Añadir</button></div>
+   <ul id="gList"></ul>
+  </section>
+
+  <section class="card">
+   <h2>🌧️ Quejas</h2>
+   <div class="row"><input id="qIn" type="text" placeholder="¿Qué te molesta ahora?" maxlength="300"><button id="qAdd">Soltar</button></div>
+   <div id="qList"></div>
+  </section>
+ </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
