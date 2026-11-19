@@ -51,16 +51,16 @@ async function load(){
 async function addGratitude(text, kind, cid){
   text=text.trim(); const n=norm(text);
   if(!n) return false;
-  if(S.norms.has(n)){ toast('Esa gratitud ya existe. Busca una nueva 🌊'); return false; }
+  if(S.norms.has(n)){ toast('Esa gratitud ya existe. Busca una nueva.'); return false; }
   const row={text, norm:n, kind, complaint_id:cid||null, day:ymd(new Date())};
   const {data,error}=await sb.from('gratitudes').insert(row).select('id,text,kind,complaint_id,day,created_at').single();
-  if(error){ toast(error.code==='23505'?'Esa gratitud ya existe. Busca una nueva 🌊':error.message); return false; }
+  if(error){ toast(error.code==='23505'?'Esa gratitud ya existe. Busca una nueva.':error.message); return false; }
   S.g.push(data); S.norms.add(n);
   if(cid){
     const cnt=S.g.filter(x=>x.complaint_id===cid).length;
     if(cnt>=PER_COMPLAINT){
       const {error:e2}=await sb.from('complaints').update({status:'resuelta',resolved_at:new Date().toISOString()}).eq('id',cid);
-      if(!e2){ const c=S.c.find(x=>x.id===cid); c.status='resuelta'; toast('Queja transformada en gratitud ✓'); }
+      if(!e2){ const c=S.c.find(x=>x.id===cid); c.status='resuelta'; toast('Queja transformada en gratitud'); }
     }
   }
   render(); return true;
@@ -75,27 +75,22 @@ async function addComplaint(text){
 
 function render(){
   const L=ledger(), remain=Math.max(0,L.req-L.done), pct=Math.min(100,Math.round(L.done/L.req*100));
-  $('#remain').innerHTML = remain? `Te faltan <span style="color:var(--sea)">${remain}</span> gratitudes hoy` : `<span class="ok">✓ Cuota de hoy completa</span>`;
+  $('#remain').innerHTML = remain? `Te faltan <span style="color:var(--sea)">${remain}</span> gratitudes hoy` : `<span class="ok">Cuota de hoy completa</span>`;
   $('#barFill').style.width=pct+'%';
   $('#debtBox').innerHTML = L.carry>0
     ? `<div class="debt">Tienes <b>${L.missed}</b> día(s) fallado(s). Hoy debes <b>${L.req}</b> = 5 de hoy + <b>${L.carry}</b> de deuda (incluye castigo ×3).</div>` : '';
 
-  const today=ymd(new Date());
-  $('#gList').innerHTML = S.g.filter(x=>x.kind==='diaria'&&x.day===today).reverse()
-    .map(x=>`<li class="g">🌱 ${esc(x.text)}</li>`).join('') || '<small>Aún no has escrito gratitudes hoy.</small>';
 
-  const pend=S.c.filter(c=>c.status==='pendiente').reverse(), done=S.c.filter(c=>c.status==='resuelta').reverse();
+  const pend=S.c.filter(c=>c.status==='pendiente').reverse();
   const card=c=>{
-    const gs=S.g.filter(x=>x.complaint_id===c.id), isDone=c.status==='resuelta', open=S.open===c.id&&!isDone;
-    return `<div class="q ${isDone?'done':''}">
+    const gs=S.g.filter(x=>x.complaint_id===c.id), open=S.open===c.id;
+    return `<div class="q">
       <div class="top"><div>${esc(c.text)}<div class="dots">${Array.from({length:PER_COMPLAINT},(_,i)=>`<b class="${i<gs.length?'on':''}"></b>`).join('')}</div></div>
-      ${isDone?'<span class="chulo">✓</span>':`<button class="ghost" data-open="${c.id}">${open?'Cerrar':'Resolver'}</button>`}</div>
-      ${gs.length?`<ul>${gs.map(x=>`<li class="g">💧 ${esc(x.text)}</li>`).join('')}</ul>`:''}
+      <button class="ghost" data-open="${c.id}">${open?'Cerrar':'Resolver'}</button></div>
       ${open?`<div class="row" style="margin-top:8px"><input type="text" data-in="${c.id}" placeholder="Gratitud ${gs.length+1} de ${PER_COMPLAINT}…" maxlength="200"><button data-add="${c.id}">Añadir</button></div>`:''}
     </div>`;
   };
-  $('#qList').innerHTML = (pend.map(card).join('')||'<small>Sin quejas pendientes. Todo en calma 🌊</small>')
-    + (done.length?`<h2 style="margin-top:16px">Transformadas</h2>${done.map(card).join('')}`:'');
+  $('#qList').innerHTML = pend.map(card).join('') || '<small>Sin quejas pendientes. Todo en calma.</small>';
 }
 
 /* ---- eventos ---- */

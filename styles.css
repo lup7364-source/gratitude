@@ -1,7 +1,8 @@
 :root{--deep:#0b3d5c;--sea:#1f7a9c;--foam:#d9f1f7;--card:rgba(255,255,255,.82);--ok:#2a9d8f;--warn:#e07a5f;--txt:#0f3347}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;font-family:Quicksand,system-ui,sans-serif;color:var(--txt);
- background:linear-gradient(180deg,#bfe6f2 0%,#8fcfe3 45%,#4fa3c4 100%);background-attachment:fixed}
+ background:linear-gradient(160deg,#d6eef3,#a8d8e6,#7fbfd6,#a9d6dc,#cbe9ec);background-size:300% 300%;animation:calm 40s ease-in-out infinite;background-attachment:fixed}
+@keyframes calm{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .waves{position:fixed;left:0;right:0;bottom:0;height:140px;z-index:0;pointer-events:none}
 .waves svg{position:absolute;bottom:0;width:200%;height:100%;animation:drift 18s linear infinite}
 .waves svg:nth-child(2){animation-duration:28s;animation-direction:reverse;opacity:.6}
@@ -39,3 +40,22 @@ li.g{padding:8px 12px;background:#eef8fb;border-radius:12px;margin-bottom:6px}
 .tabs button{flex:1;background:#cfe9f1;color:var(--deep)}
 .tabs button.act{background:var(--sea);color:#fff}
 small{opacity:.7}
+
+/* ambiente relajante: luz suave y burbujas lentas */
+.sky,.bubbles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.sky i{position:absolute;top:-20%;width:38vw;height:140%;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 70%);filter:blur(30px);transform:rotate(14deg);animation:ray 22s ease-in-out infinite alternate}
+.sky i:nth-child(1){left:8%}
+.sky i:nth-child(2){left:42%;animation-duration:30s;opacity:.7}
+.sky i:nth-child(3){left:72%;animation-duration:26s;opacity:.5}
+@keyframes ray{from{opacity:.25;transform:rotate(14deg) translateX(-30px)}to{opacity:.8;transform:rotate(14deg) translateX(30px)}}
+.bubbles b{position:absolute;bottom:-40px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),rgba(255,255,255,.15));animation:rise linear infinite}
+.bubbles b:nth-child(1){left:8%;width:14px;height:14px;animation-duration:26s}
+.bubbles b:nth-child(2){left:20%;width:8px;height:8px;animation-duration:32s;animation-delay:-9s}
+.bubbles b:nth-child(3){left:35%;width:18px;height:18px;animation-duration:38s;animation-delay:-4s}
+.bubbles b:nth-child(4){left:52%;width:10px;height:10px;animation-duration:30s;animation-delay:-16s}
+.bubbles b:nth-child(5){left:66%;width:16px;height:16px;animation-duration:36s;animation-delay:-22s}
+.bubbles b:nth-child(6){left:78%;width:9px;height:9px;animation-duration:28s;animation-delay:-12s}
+.bubbles b:nth-child(7){left:88%;width:13px;height:13px;animation-duration:34s;animation-delay:-2s}
+.bubbles b:nth-child(8){left:44%;width:7px;height:7px;animation-duration:40s;animation-delay:-28s}
+@keyframes rise{to{transform:translateY(-110vh) translateX(24px)}}
+@media (prefers-reduced-motion:reduce){body,.sky i,.bubbles b,.waves svg{animation:none}}
